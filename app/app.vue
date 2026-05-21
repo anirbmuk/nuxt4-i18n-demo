@@ -37,14 +37,15 @@ watch(current, (curr) => {
     const isPath = !next.location.startsWith(`${curr}.`)
     const isDefault = curr === i18n.defaultLocale
     const path = isDefault ? '' : `/${curr}`
-    window.location.href = isPath ? `https://${next.location}${path}` : `https://${next.location}`
+    const isHttps = window.location.protocol === 'https:'
+    window.location.href = isPath ? `${isHttps ? 'https' : 'http'}://${next.location}${path}` : `${isHttps ? 'https' : 'http'}://${next.location}`
   }
 })
 
 useHead({
   title: i18n.t('global.title'),
   htmlAttrs: {
-    lang: i18n.locale.value,
+    lang: new Intl.Locale(i18n.locale.value).toString(),
   },
 })
 </script>
